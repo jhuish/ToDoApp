@@ -1,0 +1,1 @@
+Server=tcp:jhuishtoappserver.database.windows.net,1433;Database=coreDB;User ID=jhuish;Password=Hippodog1;Encrypt=true;Connection Timeout=30;

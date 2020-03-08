@@ -1,0 +1,103 @@
+﻿@model ToDoApp.ViewModels.HomeViewModel
+
+
+
+
+
+@foreach (var t in Model.ToDos)
+{
+
+    @switch (t.ToDoPriorityLevel)
+    {
+        case 1:
+            t.bgColor = "bg-success";
+            break;
+        case 2:
+            t.bgColor = "bg-primary";
+            break;
+        case 3:
+            t.bgColor = "bg-danger";
+            break;
+
+    }
+}
+@foreach (var todocat in Model.ToDoCats)
+{
+    <div id=@todocat.Id>
+
+        <div class="card p-0">
+            <div class="card-header bg-dark">
+                <a class="card-link" data-toggle="collapse" href=#@todocat.ToDoCategory>
+                    <h6 class="text-light">@todocat.ToDoCategory.ToUpper()</h6>
+                </a>
+                <div>
+                    <form asp-action="RemoveCat" method="post">
+                        <input type="hidden" name="catName" value="@todocat.ToDoCategory.ToLower()" />
+                        <button type="submit" class="btn btn-secondary float-right btn-sm">Remove Category</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id=@todocat.ToDoCategory class="collapse" data-parent=#@todocat.Id>
+                <div class="card-body p-0">
+                    <table class="table table-dark p-0">
+                        @foreach (var todo in Model.ToDos)
+                        {
+                            if (todo.ToDoCategory.ToString().ToLower().Equals(todocat.ToDoCategory.ToString().ToLower()))
+                            {
+                                <tr class=@todo.bgColor>
+                                    <td scope="row" class="m-1 text-light">@todo.ToDoName</td>
+                                    <td>
+                                        <form asp-action="MarkComplete" method="post">
+                                            <input type="hidden" name="taskId" value="@todo.Id" />
+                                            <button type="submit" class="btn btn-dark float-right">Complete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+@*<table class="table table-dark">
+    @foreach (var todocat in Model.ToDoCats)
+    {
+        <thead>
+            <tr>
+                <th>@todocat.ToDoCategory.ToUpper()</th>
+                <th>
+                    <div>
+                        <form asp-action="RemoveCat" method="post">
+                            <input type="hidden" name="catName" value="@todocat.ToDoCategory.ToLower()" />
+                            <button type="submit" class="btn btn-secondary">Remove Category</button>
+                        </form>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        @foreach (var todo in Model.ToDos)
+        {
+            if (todo.ToDoCategory.ToString().ToLower().Equals(todocat.ToDoCategory.ToString().ToLower()))
+            {
+                <tr class=@todo.bgColor>
+                    <td scope="row">@todo.ToDoName</td>
+                    <td>
+                        <form asp-action="MarkComplete" method="post">
+                            <input type="hidden" name="taskId" value="@todo.Id" />
+                            <button type="submit" class="btn btn-primary">Complete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    }
+
+</table>*@
+
